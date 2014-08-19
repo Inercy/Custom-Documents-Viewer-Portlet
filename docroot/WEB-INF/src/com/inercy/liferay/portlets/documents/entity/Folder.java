@@ -2,6 +2,8 @@ package com.inercy.liferay.portlets.documents.entity;
 
 import java.util.List;
 
+import org.apache.jasper.tagplugins.jstl.core.ForEach;
+
 public class Folder {
 
 	private long folderId;
@@ -70,6 +72,16 @@ public class Folder {
 
 	public void setRepositoryId(long repositoryId) {
 		this.repositoryId = repositoryId;
+	}
+	
+	public void tryAddSubFolder(Folder subFolder){
+		if(subFolder.getParentFolderId() == this.folderId){
+			this.subFolders.add(subFolder);
+		} else {
+			for(Folder subFolder2 : this.subFolders){
+				subFolder2.tryAddSubFolder(subFolder);
+			}
+		}
 	}
 
 }

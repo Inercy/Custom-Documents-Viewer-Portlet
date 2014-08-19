@@ -17,7 +17,7 @@ import com.liferay.util.bridges.mvc.MVCPortlet;
  * Portlet implementation class CustomDocumentsViewerPortlet
  */
 public class CustomDocumentsViewerBean extends MVCPortlet {
-	
+
 	public List<Folder> folders;
 
 	public CustomDocumentsViewerBean() {
@@ -46,35 +46,37 @@ public class CustomDocumentsViewerBean extends MVCPortlet {
 				dlFiles = DLAppServiceUtil.getFileEntries(
 						dlFolder.getRepositoryId(), dlFolder.getFolderId());
 				files = new ArrayList<File>();
-				
-				
-				// Le agregamos los archivos a cada folder y un arraylist vacio de subfolders
+
+				// Le agregamos los archivos a cada folder y un arraylist vacio
+				// de subfolders
 				folder = new Folder(dlFolder.getFolderId(), dlFolder.getName(),
-						dlFolder.getParentFolderId(), new ArrayList<Folder>(), null, dlFolder.getRepositoryId());
-				
+						dlFolder.getParentFolderId(), new ArrayList<Folder>(),
+						null, dlFolder.getRepositoryId());
+
 				// Iteramos por los archivos que contiene cada folder
 				for (FileEntry fileEntry : dlFiles) {
-					files.add(new File(folder, fileEntry.getFolderId(), fileEntry
-							.getTitle(), fileEntry.getExtension(), fileEntry
-							.getSize()));
+					files.add(new File(folder, fileEntry.getFolderId(),
+							fileEntry.getTitle(), fileEntry.getExtension(),
+							fileEntry.getSize()));
 				}
 
 				folder.setFiles(files);
 				
-				// Mandamos el folder a la lista de folders o subfolders
-				if (folder.getParentFolderId() == 0) {
-					folders.add(folder);
-				} else {
-					subFolders.add(folder);
-				}
+				
+
+				 // Mandamos el folder a la lista de folders o subfolders
+				 if (folder.getParentFolderId() == 0) {
+					 folders.add(folder);
+				 } else {
+					 subFolders.add(folder);
+				 }
+
 			}
-			
+
 			// Asignamos los subfolders a los folders papá
 			for(Folder subFolder : subFolders){
-				for(Folder folderRoot : folders){
-					if(subFolder.getParentFolderId() == folderRoot.getFolderId()){
-						folderRoot.getSubFolders().add(subFolder);
-					}
+				for(Folder folder2 : folders){
+					folder2.tryAddSubFolder(subFolder);
 				}
 			}
 			
@@ -95,7 +97,5 @@ public class CustomDocumentsViewerBean extends MVCPortlet {
 	public void setFolders(List<Folder> folders) {
 		this.folders = folders;
 	}
-	
-	
 
 }
