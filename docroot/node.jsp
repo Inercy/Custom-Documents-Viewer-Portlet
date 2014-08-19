@@ -1,12 +1,5 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>  
 
-<%-- <c:forEach items="${node.children}" var="folder" >
-    <!-- TODO: print the node here -->
-    <c:set var="node" value="${node}" scope="request"/>
-    <jsp:include page="node.jsp"/>
-</c:forEach> --%>
-
-
 <ul>
 	<c:forEach items="${subfolders}" var="subFolder">
 		<li><c:out value="${ subFolder.name }" /></li>
