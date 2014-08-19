@@ -30,20 +30,17 @@
 <ul class="folders">
 	
 	<c:forEach items="${customDocumentsViewerBean.folders}" var="folder" >
-			<li><c:out value="${folder.name}" /> </li>
+			<li class="folder"><c:out value="${folder.name}" /> </li>
 				
-				<!-- SubFolders  -->
 				<c:if test="${not empty folder.subFolders}">
 					<c:set var="subfolders" value="${folder.subFolders}" scope="request"/>
 					<jsp:include page="node.jsp"/>
 				</c:if>
-				<!-- Fin Subfolders -->
-				
-				<!-- Archivos  -->
+
 				<c:if test="${not empty folder.files}">
-					<ul>
+					<ul class="files">
 						<c:forEach items="${folder.files}" var="file">
-							<li>
+							<li class="file">
 								<a href="<c:out value="${ file.url }" />">
 									<c:out value="${ file.name }" />
 								</a>

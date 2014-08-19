@@ -1,13 +1,13 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>  
 
-<ul>
+<ul class="folders sub">
 	<c:forEach items="${subfolders}" var="subFolder">
-		<li><c:out value="${ subFolder.name }" /></li>
+		<li class="folder sub"><c:out value="${ subFolder.name }" /></li>
 		
 		<c:if test="${not empty subFolder.files}">
-		<ul>
+		<ul class="folders sub">
 			<c:forEach items="${subFolder.files}" var="subFile">
-				<li>
+				<li class="file sub">
 					<a href="<c:out value="${ subFile.url }" />">
 						<c:out value="${ subFile.name }" />
 					</a>
