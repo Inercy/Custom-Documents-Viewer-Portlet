@@ -25,34 +25,21 @@
 <jsp:useBean 
 	id="customDocumentsViewerBean" 
 	class="com.inercy.liferay.portlets.documents.logic.CustomDocumentsViewerBean" 
-	scope="session" />
+	scope="request" />
 
 <ul class="folders">
 	
 	<c:forEach items="${customDocumentsViewerBean.folders}" var="folder" >
 			<li><c:out value="${folder.name}" /> </li>
 				
+				<!-- SubFolders  -->
 				<c:if test="${not empty folder.subFolders}">
-					<ul>
-						<c:forEach items="${folder.subFolders}" var="subFolder">
-							<li><c:out value="${ subFolder.name }" /></li>
-							
-							<c:if test="${not empty subFolder.files}">
-							<ul>
-								<c:forEach items="${subFolder.files}" var="subFile">
-									<li>
-										<a href="<c:out value="${ subFile.url }" />">
-											<c:out value="${ subFile.name }" />
-										</a>
-									</li>
-								</c:forEach>
-							</ul>
-							</c:if>
-							
-						</c:forEach>
-					</ul>
+					<c:set var="subfolders" value="${folder.subFolders}" scope="request"/>
+					<jsp:include page="node.jsp"/>
 				</c:if>
+				<!-- Fin Subfolders -->
 				
+				<!-- Archivos  -->
 				<c:if test="${not empty folder.files}">
 					<ul>
 						<c:forEach items="${folder.files}" var="file">
