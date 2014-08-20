@@ -21,6 +21,7 @@ public class Folder {
 		this.parentFolderId = parentFolderId;
 		this.subFolders = subFolders;
 		this.files = files;
+		this.repositoryId = repositoryId;
 	}
 
 	public Folder() {
