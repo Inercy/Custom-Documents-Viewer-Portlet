@@ -4,3 +4,7 @@
 .folders i {
 	margin-right: 5px;
 }
+.folder{
+	position: relative;
+	z-index: 1;
+}

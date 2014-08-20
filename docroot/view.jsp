@@ -18,6 +18,7 @@
 %>
 
 <portlet:defineObjects />
+
 <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
 <h3>Documentos</h3>
 
@@ -28,33 +29,34 @@
 	scope="request" />
 
 <ul class="folders">
+
 	
 	<c:forEach items="${customDocumentsViewerBean.folders}" var="folder" >
-			<li class="folder ">
-				<i class="fa fa-plus"></i> 
-				<i class="fa fa-folder"></i>
-				<c:out value="${folder.name}" />
-				
-				<c:if test="${not empty folder.files}">
-					<ul class="files">
-						<c:forEach items="${folder.files}" var="file">
-							<li class="file">
-								
-								<a href="<c:out value="${ file.url }" />" target="_blank" class="link">
-									<i class="fa fa-file"></i>
-									<c:out value="${ file.name }" />
-								</a>
-								
-							</li>
-						</c:forEach>
-					</ul>
-				</c:if>
-				
-				<c:if test="${not empty folder.subFolders}">
-					<c:set var="subfolders" value="${folder.subFolders}" scope="request"/>
-					<jsp:include page="node.jsp"/>
-				</c:if>
-			</li>
+		
+		<li class="folder">
+			<i class="fa fa-plus"></i> 
+			<i class="fa fa-folder"></i>
+			<c:out value="${folder.name}" />
+			
+			<c:if test="${not empty folder.files}">
+				<ul class="files">
+					<c:forEach items="${folder.files}" var="file">
+						<li class="file">
+							<a href="<c:out value="${ file.url }" />" target="_blank" class="link">
+								<i class="fa fa-file"></i>
+								<c:out value="${ file.name }" />
+							</a>
+						</li>
+					</c:forEach>
+				</ul>
+			</c:if>
+			
+			<c:if test="${not empty folder.subFolders}">
+				<c:set var="subfolders" value="${folder.subFolders}" scope="request"/>
+				<jsp:include page="node.jsp"/>
+			</c:if>
+		</li>
+		
 	</c:forEach>
 	 
 </ul>
@@ -62,14 +64,16 @@
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 <script>
 
-	var folders = $(".folders");
+	var folders = $(".folder");
 
 	/* folders.find(">ul").hide(); */
 
-	$("li.folder").css("cursor", "pointer").on("click", function(){
-
-		$this = $(this);
+	$("li.folder").css("cursor", "pointer").on("click", function(e){
 		
+		$this = $(this);
+		$this.find("ul.files,ul.folders").toggle(200);
+
+		return false;
 	});
 
 	
