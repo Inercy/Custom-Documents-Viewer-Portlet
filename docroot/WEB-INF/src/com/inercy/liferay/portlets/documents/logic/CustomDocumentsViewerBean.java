@@ -51,7 +51,7 @@ public class CustomDocumentsViewerBean extends MVCPortlet {
 				// de subfolders
 				folder = new Folder(dlFolder.getFolderId(), dlFolder.getName(),
 						dlFolder.getParentFolderId(), new ArrayList<Folder>(),
-						null, dlFolder.getRepositoryId());
+						null, dlFolder.getGroupId());
 
 				// Iteramos por los archivos que contiene cada folder
 				for (FileEntry fileEntry : dlFiles) {
