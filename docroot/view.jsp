@@ -30,7 +30,7 @@
 <ul class="folders">
 	
 	<c:forEach items="${customDocumentsViewerBean.folders}" var="folder" >
-			<li class="folder"><c:out value="${folder.name}" /> </li>
+			<li class="folder"><c:out value="${folder.name}" /> 
 				
 				<c:if test="${not empty folder.subFolders}">
 					<c:set var="subfolders" value="${folder.subFolders}" scope="request"/>
@@ -48,7 +48,22 @@
 						</c:forEach>
 					</ul>
 				</c:if>
-				
+			</li>	
 	</c:forEach>
 	 
 </ul>
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<script>
+
+	var folders = $(".folders");
+
+	folders.find(".subfolders").hide();
+	folders.find(".files").hide();
+
+	$(".folders .folder").css("cursor", "pointer").on("click", function(){
+		$(this).find("ul.subfolders").toggle(200);
+		$(this).find("ul.files").toggle(200);
+	});
+	
+</script>
