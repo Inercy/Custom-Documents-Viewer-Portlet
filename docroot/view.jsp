@@ -35,29 +35,26 @@
 				<i class="fa fa-folder"></i>
 				<c:out value="${folder.name}" />
 				
+				<c:if test="${not empty folder.files}">
+					<ul class="files">
+						<c:forEach items="${folder.files}" var="file">
+							<li class="file">
+								
+								<a href="<c:out value="${ file.url }" />" target="_blank" class="link">
+									<i class="fa fa-file"></i>
+									<c:out value="${ file.name }" />
+								</a>
+								
+							</li>
+						</c:forEach>
+					</ul>
+				</c:if>
+				
+				<c:if test="${not empty folder.subFolders}">
+					<c:set var="subfolders" value="${folder.subFolders}" scope="request"/>
+					<jsp:include page="node.jsp"/>
+				</c:if>
 			</li>
-			<c:if test="${not empty folder.files}">
-				<ul class="files">
-					<c:forEach items="${folder.files}" var="file">
-						<li class="file">
-							
-							<a href="<c:out value="${ file.url }" />" target="_blank" class="link">
-								<i class="fa fa-file"></i>
-								<c:out value="${ file.name }" />
-							</a>
-							
-						</li>
-					</c:forEach>
-					
-					<c:if test="${not empty folder.subFolders}">
-						<c:set var="subfolders" value="${folder.subFolders}" scope="request"/>
-						<jsp:include page="node.jsp"/>
-					</c:if>
-						
-				</ul>
-			</c:if>
-			
-			
 	</c:forEach>
 	 
 </ul>
