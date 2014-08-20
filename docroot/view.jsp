@@ -18,7 +18,7 @@
 %>
 
 <portlet:defineObjects />
-
+<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
 <h3>Documentos</h3>
 
 
@@ -30,24 +30,34 @@
 <ul class="folders">
 	
 	<c:forEach items="${customDocumentsViewerBean.folders}" var="folder" >
-			<li class="folder"><c:out value="${folder.name}" /> 
+			<li class="folder ">
+				<i class="fa fa-plus"></i> 
+				<i class="fa fa-folder"></i>
+				<c:out value="${folder.name}" />
 				
-				<c:if test="${not empty folder.subFolders}">
-					<c:set var="subfolders" value="${folder.subFolders}" scope="request"/>
-					<jsp:include page="node.jsp"/>
-				</c:if>
+				
+				
 
 				<c:if test="${not empty folder.files}">
 					<ul class="files">
 						<c:forEach items="${folder.files}" var="file">
 							<li class="file">
-								<a href="<c:out value="${ file.url }" />">
-									<c:out value="${ file.name }" />
-								</a>
+								
+									<a href="<c:out value="${ file.url }" />">
+										<i class="fa fa-file"></i>
+										<c:out value="${ file.name }" />
+									</a>
+								
 							</li>
 						</c:forEach>
 					</ul>
 				</c:if>
+				
+				<c:if test="${not empty folder.subFolders}">
+					<c:set var="subfolders" value="${folder.subFolders}" scope="request"/>
+					<jsp:include page="node.jsp"/>
+				</c:if>
+				
 			</li>	
 	</c:forEach>
 	 
