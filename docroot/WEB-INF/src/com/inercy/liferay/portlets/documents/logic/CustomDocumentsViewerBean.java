@@ -42,7 +42,7 @@ public class CustomDocumentsViewerBean extends MVCPortlet {
 
 			// Iteramos por los folders y subfolders del sitio
 			for (DLFolder dlFolder : dlFolders) {
-
+				
 				dlFiles = DLAppServiceUtil.getFileEntries(
 						dlFolder.getRepositoryId(), dlFolder.getFolderId());
 				files = new ArrayList<File>();
@@ -66,7 +66,8 @@ public class CustomDocumentsViewerBean extends MVCPortlet {
 
 				 // Mandamos el folder a la lista de folders o subfolders
 				 if (folder.getParentFolderId() == 0) {
-					 folders.add(folder);
+					 if(!dlFolder.isHidden())
+						 folders.add(folder);
 				 } else {
 					 subFolders.add(folder);
 				 }
