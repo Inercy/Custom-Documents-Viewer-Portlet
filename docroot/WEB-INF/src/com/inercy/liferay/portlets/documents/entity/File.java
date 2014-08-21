@@ -60,8 +60,7 @@ public class File {
 	}
 	
 	private String createURL(){
-		// return "/documents/" + folder.getRepositoryId() + "/" + folderId + "/" + name;
-		return "/document_library/get_file?folderId=" + folderId + "&name=" + name;
+		return "/documents/" + folder.getRepositoryId() + "/" + folderId + "/" + name;
 	}
 
 	public String getUrl() {
