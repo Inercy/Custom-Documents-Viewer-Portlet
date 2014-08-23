@@ -66,16 +66,18 @@
 
 	var folders = $(".folder");
 
-	/* folders.find(">ul").hide(); */
-
-	$("li.folder").css("cursor", "pointer").on("click", function(e){
+	$("li.folder")
+		.css("cursor", "pointer")
+		.on("click", function(e){
 		
-		$this = $(this);
-		$this.find("ul.files,ul.folders").toggle(200);
+			$this = $(this);
+			console.log($this);
+			$this.find("ul.files,ul.folders").toggle(200);
 
-		return false;
-	});
+			return false;
+	});	
 
-	
+	$("li.file>a").unbind("click");
+
 	
 </script>
