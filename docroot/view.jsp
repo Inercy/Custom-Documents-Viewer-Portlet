@@ -1,6 +1,24 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>  
 
-<%@page import="com.inercy.liferay.portlets.documents.logic.CustomDocumentsViewerBean"%>
+<%-- <%@page import="com.inercy.liferay.portlets.documents.logic.CustomDocumentsViewerBean"%> --%>
+
+<%@page import="java.util.List"%>
+<%@page import="java.util.ArrayList"%>
+
+<%@page import="javax.faces.context.FacesContext"%>
+<%@page import="javax.faces.context.ExternalContext"%>
+
+
+<%@page import="com.liferay.portlet.documentlibrary.model.DLFolder"%>
+<%@page import="com.liferay.portal.kernel.repository.model.FileEntry"%>
+<%@page import="com.liferay.portlet.documentlibrary.service.DLFolderLocalServiceUtil"%>
+<%@page import="com.liferay.portlet.documentlibrary.service.DLAppServiceUtil"%>
+<%@page import="com.liferay.portal.kernel.exception.PortalException"%>
+<%@page import="com.liferay.portal.kernel.exception.SystemException"%>
+
+<%@page import="com.inercy.liferay.portlets.documents.entity.File"%>
+<%@page import="com.inercy.liferay.portlets.documents.entity.Folder"%>
+
 <%
 /**
  * Copyright (c) 2000-2013 Liferay, Inc. All rights reserved.
@@ -23,15 +41,96 @@
 <h3>Documentos</h3>
 
 
-<jsp:useBean 
+<%-- <jsp:useBean 
 	id="customDocumentsViewerBean" 
 	class="com.inercy.liferay.portlets.documents.logic.CustomDocumentsViewerBean" 
-	scope="request" />
+	scope="request" /> --%>
+	
+<%
+
+List<DLFolder> dlFolders;
+List<Folder> folders = new ArrayList<Folder>();
+List<Folder> subFolders = new ArrayList<Folder>();
+
+FacesContext facesContext = 
+		FacesContext.getCurrentInstance();
+
+ExternalContext externalContext = 
+		facesContext.getExternalContext();
+//
+//PortletRequest portletRequest = 
+//		(PortletRequest) externalContext.getRequest();
+//
+//PortletResponse portletResponse = 
+//		(PortletResponse) externalContext.getResponse();
+
+try {
+
+	dlFolders = DLFolderLocalServiceUtil.getDLFolders(0,
+			DLFolderLocalServiceUtil.getDLFoldersCount());
+
+
+	List<FileEntry> dlFiles;
+	List<File> files;
+
+	Folder folder;
+
+	// Iteramos por los folders y subfolders del sitio
+	for (DLFolder dlFolder : dlFolders) {
+
+		dlFiles = DLAppServiceUtil.getFileEntries(
+				dlFolder.getRepositoryId(), dlFolder.getFolderId());
+		files = new ArrayList<File>();
+
+		// Le agregamos los archivos a cada folder y un arraylist vacio
+		// de subfolders
+		folder = new Folder(dlFolder.getFolderId(), dlFolder.getName(),
+				dlFolder.getParentFolderId(), new ArrayList<Folder>(),
+				null, dlFolder.getGroupId());
+
+		// Iteramos por los archivos que contiene cada folder
+		for (FileEntry fileEntry : dlFiles) {
+			files.add(new File(folder, fileEntry.getFolderId(),
+					fileEntry.getTitle(), fileEntry.getExtension(),
+					fileEntry.getSize()));
+		}
+
+		folder.setFiles(files);
+
+		// Mandamos el folder a la lista de folders o subfolders
+		if (folder.getParentFolderId() == 0) {
+			if (!dlFolder.isHidden()){
+				folders.add(folder);
+			}
+		} else {
+			subFolders.add(folder);
+		}
+
+	}
+
+	// Asignamos los subfolders a los folders papá
+	for (Folder subFolder : subFolders) {
+		for (Folder folder2 : folders) {
+			folder2.tryAddSubFolder(subFolder);
+		}
+	}
+	
+	pageContext.setAttribute("folders", folders);
+
+} catch (SystemException e) {
+	// TODO Auto-generated catch block
+	e.printStackTrace();
+} catch (PortalException e) {
+	// TODO Auto-generated catch block
+	e.printStackTrace();
+}
+
+%>
 
 <ul class="folders">
 
 	
-	<c:forEach items="${customDocumentsViewerBean.folders}" var="folder" >
+	<c:forEach items="${folders}" var="folder" >
 		
 		<li class="folder">
 			<i class="fa fa-plus"></i> 
