@@ -1,14 +1,34 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-    pageEncoding="ISO-8859-1"%>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<html>
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Insert title here</title>
-</head>
-<body>
+<%@ taglib uri="http://java.sun.com/portlet_2_0" prefix="portlet" %>
+<%@ taglib prefix="liferay-portlet" uri="http://liferay.com/tld/portlet" %>
 
-	<h1>Configuration!</h1>
+<%@ page import="com.liferay.portal.kernel.util.Constants" %>
+<%@ page import="com.inercy.liferay.portlets.documents.logic.CustomDocumentsViewerBean" %>
 
-</body>
-</html>
+<portlet:defineObjects />
+
+<jsp:useBean 
+	id="customDocumentsViewerBean" 
+	class="com.inercy.liferay.portlets.documents.logic.CustomDocumentsViewerBean" 
+	scope="request" />
+	
+
+
+<form 
+	action="<liferay-portlet:actionURL portletConfiguration="true" />" 
+	method="post" name="<portlet:namespace />fm">
+	
+	<input name="<portlet:namespace /><%=Constants.CMD%>" type="hidden" value="<%=Constants.UPDATE%>" /> 
+	
+	Folder a mostrar: 
+	<select name="<portlet:namespace />folderId">
+		<% for(int i=0; i < customDocumentsViewerBean.folders.size(); i++){ %>
+			<option value="<%= customDocumentsViewerBean.folders.get(i).getFolderId()%>">
+				<%= customDocumentsViewerBean.folders.get(i).getName()%>
+			</option>
+		<% } %>
+		
+	</select> 
+	<br /> 
+	<input type="button" value="Save" 
+		onClick="submitForm(document.<portlet:namespace />fm);" />
+</form>

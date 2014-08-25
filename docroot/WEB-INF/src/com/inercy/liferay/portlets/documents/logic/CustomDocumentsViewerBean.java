@@ -3,6 +3,11 @@ package com.inercy.liferay.portlets.documents.logic;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.faces.context.ExternalContext;
+import javax.faces.context.FacesContext;
+import javax.portlet.PortletRequest;
+import javax.portlet.PortletResponse;
+
 import com.inercy.liferay.portlets.documents.entity.File;
 import com.inercy.liferay.portlets.documents.entity.Folder;
 import com.liferay.portal.kernel.exception.PortalException;
@@ -30,10 +35,24 @@ public class CustomDocumentsViewerBean extends MVCPortlet {
 		folders = new ArrayList<Folder>();
 		List<Folder> subFolders = new ArrayList<Folder>();
 
+		FacesContext facesContext = 
+				FacesContext.getCurrentInstance();
+		
+//		ExternalContext externalContext = 
+//				facesContext.getExternalContext();
+//
+//		PortletRequest portletRequest = 
+//				(PortletRequest) externalContext.getRequest();
+//
+//		PortletResponse portletResponse = 
+//				(PortletResponse) externalContext.getResponse();
+
 		try {
 
 			dlFolders = DLFolderLocalServiceUtil.getDLFolders(0,
 					DLFolderLocalServiceUtil.getDLFoldersCount());
+
+			// System.out.println(prefs.getValue("folderId", null));
 
 			List<FileEntry> dlFiles;
 			List<File> files;
@@ -42,7 +61,7 @@ public class CustomDocumentsViewerBean extends MVCPortlet {
 
 			// Iteramos por los folders y subfolders del sitio
 			for (DLFolder dlFolder : dlFolders) {
-				
+
 				dlFiles = DLAppServiceUtil.getFileEntries(
 						dlFolder.getRepositoryId(), dlFolder.getFolderId());
 				files = new ArrayList<File>();
@@ -61,26 +80,23 @@ public class CustomDocumentsViewerBean extends MVCPortlet {
 				}
 
 				folder.setFiles(files);
-				
-				
 
-				 // Mandamos el folder a la lista de folders o subfolders
-				 if (folder.getParentFolderId() == 0) {
-					 if(!dlFolder.isHidden())
-						 folders.add(folder);
-				 } else {
-					 subFolders.add(folder);
-				 }
+				// Mandamos el folder a la lista de folders o subfolders
+				if (folder.getParentFolderId() == 0) {
+					if (!dlFolder.isHidden())
+						folders.add(folder);
+				} else {
+					subFolders.add(folder);
+				}
 
 			}
 
 			// Asignamos los subfolders a los folders papá
-			for(Folder subFolder : subFolders){
-				for(Folder folder2 : folders){
+			for (Folder subFolder : subFolders) {
+				for (Folder folder2 : folders) {
 					folder2.tryAddSubFolder(subFolder);
 				}
 			}
-			
 
 		} catch (SystemException e) {
 			// TODO Auto-generated catch block

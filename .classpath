@@ -18,6 +18,15 @@
 			<attribute name="org.eclipse.jst.component.nondependency" value=""/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="C:/Users/Isaac/Desktop/jstl-1.2.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Isaac/Desktop/jstl-1.2.jar">
+		<attributes>
+			<attribute name="org.eclipse.jst.component.dependency" value="/WEB-INF/lib"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="C:/Users/Isaac/Desktop/jsf-api-2.0.4-b09.jar">
+		<attributes>
+			<attribute name="org.eclipse.jst.component.dependency" value="/WEB-INF/lib"/>
+		</attributes>
+	</classpathentry>
 	<classpathentry kind="output" path="docroot/WEB-INF/classes"/>
 </classpath>
