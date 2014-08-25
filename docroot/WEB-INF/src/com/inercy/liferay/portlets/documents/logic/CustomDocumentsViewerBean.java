@@ -3,18 +3,16 @@ package com.inercy.liferay.portlets.documents.logic;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
-import javax.portlet.PortletRequest;
-import javax.portlet.PortletResponse;
 
 import com.inercy.liferay.portlets.documents.entity.File;
 import com.inercy.liferay.portlets.documents.entity.Folder;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.repository.model.FileEntry;
+import com.liferay.portlet.documentlibrary.model.DLFileEntry;
 import com.liferay.portlet.documentlibrary.model.DLFolder;
-import com.liferay.portlet.documentlibrary.service.DLAppServiceUtil;
+import com.liferay.portlet.documentlibrary.service.DLFileEntryLocalServiceUtil;
 import com.liferay.portlet.documentlibrary.service.DLFolderLocalServiceUtil;
 import com.liferay.util.bridges.mvc.MVCPortlet;
 
@@ -54,7 +52,7 @@ public class CustomDocumentsViewerBean extends MVCPortlet {
 
 			// System.out.println(prefs.getValue("folderId", null));
 
-			List<FileEntry> dlFiles;
+			List<DLFileEntry> dlFiles;
 			List<File> files;
 
 			Folder folder;
@@ -62,7 +60,7 @@ public class CustomDocumentsViewerBean extends MVCPortlet {
 			// Iteramos por los folders y subfolders del sitio
 			for (DLFolder dlFolder : dlFolders) {
 
-				dlFiles = DLAppServiceUtil.getFileEntries(
+				dlFiles = DLFileEntryLocalServiceUtil.getFileEntries(
 						dlFolder.getRepositoryId(), dlFolder.getFolderId());
 				files = new ArrayList<File>();
 
@@ -73,7 +71,7 @@ public class CustomDocumentsViewerBean extends MVCPortlet {
 						null, dlFolder.getGroupId());
 
 				// Iteramos por los archivos que contiene cada folder
-				for (FileEntry fileEntry : dlFiles) {
+				for (DLFileEntry fileEntry : dlFiles) {
 					files.add(new File(folder, fileEntry.getFolderId(),
 							fileEntry.getTitle(), fileEntry.getExtension(),
 							fileEntry.getSize()));
@@ -99,9 +97,6 @@ public class CustomDocumentsViewerBean extends MVCPortlet {
 			}
 
 		} catch (SystemException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (PortalException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
