@@ -1,15 +1,17 @@
 package com.inercy.liferay.portlets.documents.logic;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.faces.context.FacesContext;
+import javax.portlet.PortletException;
+import javax.portlet.PortletPreferences;
+import javax.portlet.RenderRequest;
+import javax.portlet.RenderResponse;
 
 import com.inercy.liferay.portlets.documents.entity.File;
 import com.inercy.liferay.portlets.documents.entity.Folder;
-import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
-import com.liferay.portal.kernel.repository.model.FileEntry;
 import com.liferay.portlet.documentlibrary.model.DLFileEntry;
 import com.liferay.portlet.documentlibrary.model.DLFolder;
 import com.liferay.portlet.documentlibrary.service.DLFileEntryLocalServiceUtil;
@@ -22,28 +24,17 @@ import com.liferay.util.bridges.mvc.MVCPortlet;
 public class CustomDocumentsViewerBean extends MVCPortlet {
 
 	public List<Folder> folders;
+	private Long folderId;
 
 	public CustomDocumentsViewerBean() {
-		init();
+		LoadFolders();
 	}
 
-	public void init() {
-
+	public void LoadFolders() {
+		System.out.println("Load Folders " + folderId);
 		List<DLFolder> dlFolders;
 		folders = new ArrayList<Folder>();
 		List<Folder> subFolders = new ArrayList<Folder>();
-
-		FacesContext facesContext = 
-				FacesContext.getCurrentInstance();
-		
-//		ExternalContext externalContext = 
-//				facesContext.getExternalContext();
-//
-//		PortletRequest portletRequest = 
-//				(PortletRequest) externalContext.getRequest();
-//
-//		PortletResponse portletResponse = 
-//				(PortletResponse) externalContext.getResponse();
 
 		try {
 
@@ -102,6 +93,24 @@ public class CustomDocumentsViewerBean extends MVCPortlet {
 		}
 	}
 
+	public void doView(RenderRequest renderRequest, RenderResponse renderResponse)
+		    throws IOException, PortletException {
+		try{
+			
+			System.out.println("Do View");
+			
+			PortletPreferences prefs = renderRequest.getPreferences();
+			folderId = Long.valueOf(prefs.getValue("folderId", ""));
+			
+			System.out.println("Folder Id: " + folderId);
+		} catch(NullPointerException e){
+			folderId = (long) 0;
+		} finally {
+			super.doView(renderRequest, renderResponse);
+		}
+	}
+	
+	
 	public List<Folder> getFolders() {
 		return folders;
 	}
