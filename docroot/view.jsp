@@ -1,6 +1,6 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>  
 
-<%@page import="com.inercy.liferay.portlets.documents.logic.CustomDocumentsViewerBean"%>
+<%-- <%@page import="com.inercy.liferay.portlets.documents.logic.CustomDocumentsViewerBean"%> --%>
 <%
 /**
  * Copyright (c) 2000-2013 Liferay, Inc. All rights reserved.
@@ -23,15 +23,16 @@
 <h3>Documentos</h3>
 
 
-<jsp:useBean 
+<%-- <jsp:useBean 
 	id="customDocumentsViewerBean" 
 	class="com.inercy.liferay.portlets.documents.logic.CustomDocumentsViewerBean" 
-	scope="request" />
+	scope="request" /> --%>
+
 
 <ul class="folders">
 
 	
-	<c:forEach items="${customDocumentsViewerBean.folders}" var="folder" >
+	<%-- <c:forEach items="${folders}" var="folder" > --%>
 		
 		<li class="folder">
 			<i class="fa fa-plus"></i> 
@@ -57,7 +58,7 @@
 			</c:if>
 		</li>
 		
-	</c:forEach>
+	<%-- </c:forEach> --%>
 	 
 </ul>
 

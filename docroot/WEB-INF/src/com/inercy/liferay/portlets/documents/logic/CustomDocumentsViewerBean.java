@@ -24,6 +24,7 @@ import com.liferay.util.bridges.mvc.MVCPortlet;
 public class CustomDocumentsViewerBean extends MVCPortlet {
 
 	public List<Folder> folders;
+	public Folder defaultFolder;
 	private Long folderId;
 
 	public CustomDocumentsViewerBean() {
@@ -31,12 +32,32 @@ public class CustomDocumentsViewerBean extends MVCPortlet {
 	}
 
 	public void LoadFolders() {
+		
+	}
+
+	@Override
+	public void doView(RenderRequest renderRequest, RenderResponse renderResponse)
+		    throws IOException, PortletException {
+		try{
+			
+		System.out.println("Do View");
+		
+		PortletPreferences prefs = renderRequest.getPreferences();
+		try{
+			folderId = Long.valueOf(prefs.getValue("folderId", ""));
+		} catch(NumberFormatException ex){
+			folderId = (long)0;
+		}
+		
+		
+		System.out.println("Folder Id: " + folderId);
+
+		
 		System.out.println("Load Folders " + folderId);
 		List<DLFolder> dlFolders;
 		folders = new ArrayList<Folder>();
 		List<Folder> subFolders = new ArrayList<Folder>();
 
-		try {
 
 			dlFolders = DLFolderLocalServiceUtil.getDLFolders(0,
 					DLFolderLocalServiceUtil.getDLFoldersCount());
@@ -84,30 +105,23 @@ public class CustomDocumentsViewerBean extends MVCPortlet {
 			for (Folder subFolder : subFolders) {
 				for (Folder folder2 : folders) {
 					folder2.tryAddSubFolder(subFolder);
+					
+					if(folder2.getFolderId() == folderId){
+						defaultFolder = folder2;
+					}
+					
 				}
 			}
+			
+			renderRequest.setAttribute("folders", folders);
+			renderRequest.setAttribute("folder", defaultFolder);
 
 		} catch (SystemException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
-	}
-
-	public void doView(RenderRequest renderRequest, RenderResponse renderResponse)
-		    throws IOException, PortletException {
-		try{
-			
-			System.out.println("Do View");
-			
-			PortletPreferences prefs = renderRequest.getPreferences();
-			folderId = Long.valueOf(prefs.getValue("folderId", ""));
-			
-			System.out.println("Folder Id: " + folderId);
-		} catch(NullPointerException e){
-			folderId = (long) 0;
 		} finally {
 			super.doView(renderRequest, renderResponse);
 		}
+		
 	}
 	
 	
@@ -119,4 +133,16 @@ public class CustomDocumentsViewerBean extends MVCPortlet {
 		this.folders = folders;
 	}
 
+	
+	public Long getFolderId() {
+		return folderId;
+	}
+
+	
+	public void setFolderId(Long folderId) {
+		this.folderId = folderId;
+	}
+
+	
+	
 }
