@@ -4,7 +4,7 @@
 	<portlet>
 		<portlet-name>documents-viewer</portlet-name>
 		<display-name>Documents Viewer</display-name>
-		<portlet-class>com.liferay.util.bridges.mvc.MVCPortlet</portlet-class>
+		<portlet-class>com.inercy.liferay.portlets.documents.logic.CustomDocumentsViewerBean</portlet-class>
 		<init-param>
 			<name>view-template</name>
 			<value>/view.jsp</value>

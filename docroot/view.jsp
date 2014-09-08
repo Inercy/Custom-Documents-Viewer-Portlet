@@ -1,6 +1,6 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>  
 
-<%@page import="com.inercy.liferay.portlets.documents.logic.CustomDocumentsViewerBean"%>
+<%-- <%@page import="com.inercy.liferay.portlets.documents.logic.CustomDocumentsViewerBean"%> --%>
 <%
 /**
  * Copyright (c) 2000-2013 Liferay, Inc. All rights reserved.
@@ -19,19 +19,22 @@
 
 <portlet:defineObjects />
 
+<style>
+
+</style>
+
 <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
-<h3>Documentos</h3>
 
-
-<jsp:useBean 
+<%-- <jsp:useBean 
 	id="customDocumentsViewerBean" 
 	class="com.inercy.liferay.portlets.documents.logic.CustomDocumentsViewerBean" 
-	scope="request" />
+	scope="request" /> --%>
+
 
 <ul class="folders">
 
 	
-	<c:forEach items="${customDocumentsViewerBean.folders}" var="folder" >
+	<%-- <c:forEach items="${folders}" var="folder" > --%>
 		
 		<li class="folder">
 			<i class="fa fa-plus"></i> 
@@ -57,7 +60,7 @@
 			</c:if>
 		</li>
 		
-	</c:forEach>
+	<%-- </c:forEach> --%>
 	 
 </ul>
 
@@ -66,16 +69,22 @@
 
 	var folders = $(".folder");
 
-	/* folders.find(">ul").hide(); */
+	$("li.folder")
+		.css("cursor", "pointer")
+		.on("click", function(){
+			
+			$this = $(this);
+			console.log($this);
+			$this.find("ul.files,ul.folders").toggle(200);
+			
+			return false;
+	});	
 
-	$("li.folder").css("cursor", "pointer").on("click", function(e){
-		
-		$this = $(this);
-		$this.find("ul.files,ul.folders").toggle(200);
-
-		return false;
+	
+	$(".folder").first().children("ul").children("li.folder").children("ul").hide(200);
+	
+	$("li.folder a").on('click', function(e) {
+	    e.stopPropagation();
 	});
 
-	
-	
 </script>
