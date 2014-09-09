@@ -19,9 +19,11 @@
 
 <portlet:defineObjects />
 
-<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
-<h3>Documentos</h3>
+<style>
 
+</style>
+
+<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
 
 <%-- <jsp:useBean 
 	id="customDocumentsViewerBean" 
@@ -69,16 +71,20 @@
 
 	$("li.folder")
 		.css("cursor", "pointer")
-		.on("click", function(e){
-		
+		.on("click", function(){
+			
 			$this = $(this);
 			console.log($this);
 			$this.find("ul.files,ul.folders").toggle(200);
-
+			
 			return false;
 	});	
 
-	$("li.file>a").unbind("click");
-
 	
+	$(".folder").first().children("ul").children("li.folder").children("ul").hide(200);
+	
+	$("li.folder a").on('click', function(e) {
+	    e.stopPropagation();
+	});
+
 </script>

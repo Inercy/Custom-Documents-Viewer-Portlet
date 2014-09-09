@@ -20,9 +20,7 @@
 	
 	<input name="<portlet:namespace /><%=Constants.CMD%>" type="hidden" value="<%=Constants.UPDATE%>" /> 
 	
-	Folder a mostrar: 
-	
-	<label><c:out value="${folders}"/></label>
+	Folder a mostrar:
 	
 	<select name="<portlet:namespace />folderId">
 		<c:forEach items="${folders}" var="folder" >

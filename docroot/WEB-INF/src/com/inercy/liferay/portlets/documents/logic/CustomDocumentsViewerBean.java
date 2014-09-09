@@ -40,7 +40,7 @@ public class CustomDocumentsViewerBean extends MVCPortlet {
 		    throws IOException, PortletException {
 		try{
 			
-		System.out.println("Do View");
+		// System.out.println("Do View");
 		
 		PortletPreferences prefs = renderRequest.getPreferences();
 		try{
@@ -49,16 +49,13 @@ public class CustomDocumentsViewerBean extends MVCPortlet {
 			folderId = (long)0;
 		}
 		
+		// System.out.println("Folder Id: " + folderId);
+		// System.out.println("Load Folders " + folderId);
 		
-		System.out.println("Folder Id: " + folderId);
-
-		
-		System.out.println("Load Folders " + folderId);
 		List<DLFolder> dlFolders;
 		folders = new ArrayList<Folder>();
 		List<Folder> subFolders = new ArrayList<Folder>();
-
-
+		
 			dlFolders = DLFolderLocalServiceUtil.getDLFolders(0,
 					DLFolderLocalServiceUtil.getDLFoldersCount());
 
@@ -142,7 +139,4 @@ public class CustomDocumentsViewerBean extends MVCPortlet {
 	public void setFolderId(Long folderId) {
 		this.folderId = folderId;
 	}
-
-	
-	
 }
