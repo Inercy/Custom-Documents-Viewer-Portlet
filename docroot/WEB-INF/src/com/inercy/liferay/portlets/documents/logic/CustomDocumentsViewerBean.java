@@ -81,9 +81,11 @@ public class CustomDocumentsViewerBean extends MVCPortlet {
 
 				// Iteramos por los archivos que contiene cada folder
 				for (DLFileEntry fileEntry : dlFiles) {
-					files.add(new File(folder, fileEntry.getFolderId(),
-							fileEntry.getTitle(), fileEntry.getExtension(),
-							fileEntry.getSize()));
+					if(!fileEntry.getTitle().startsWith("/")){
+						files.add(new File(folder, fileEntry.getFolderId(),
+								fileEntry.getTitle(), fileEntry.getExtension(),
+								fileEntry.getSize()));
+					}
 				}
 
 				folder.setFiles(files);
@@ -93,7 +95,8 @@ public class CustomDocumentsViewerBean extends MVCPortlet {
 					if (!dlFolder.isHidden())
 						folders.add(folder);
 				} else {
-					subFolders.add(folder);
+					if(!folder.getName().startsWith("/"))
+						subFolders.add(folder);
 				}
 
 			}
